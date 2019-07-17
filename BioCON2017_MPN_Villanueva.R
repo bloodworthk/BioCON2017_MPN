@@ -31,10 +31,10 @@ LECA_Nen_Monoculture_1<-read.csv("MPN_Analysis_LECA_Nen_Monoculture_TEST.csv")
 LECA_Nam_Monoculture_1<-read.csv("MPN_Analysis_LECA_Nam_Monoculture_TEST.csv")
 LUPE_Nen_Monoculture_1<-read.csv("MPN_Analysis_LUPE_Nen_Monoculture_TEST.csv")
 LUPE_Nam_Monoculture_1<-read.csv("MPN_Analysis_LUPE_Nam_Monoculture_TEST.csv")
-LECA_Nen_Monoculture_2<-read.csv("MPN_Analysis_LECA_Nen_Monoculture_TEST.csv")
-LECA_Nam_Monoculture_2<-read.csv("MPN_Analysis_LECA_Nam_Monoculture_TEST.csv")
-LUPE_Nen_Monoculture_2<-read.csv("MPN_Analysis_LUPE_Nen_Monoculture_TEST.csv")
-LUPE_Nam_Monoculture_2<-read.csv("MPN_Analysis_LUPE_Nam_Monoculture_TEST.csv")
+LECA_Nen_Monoculture_2<-read.csv("MPN_Analysis_LECA_Nen_Monoculture_2_TEST.csv")
+LECA_Nam_Monoculture_2<-read.csv("MPN_Analysis_LECA_Nam_Monoculture_2_TEST.csv")
+LUPE_Nen_Monoculture_2<-read.csv("MPN_Analysis_LUPE_Nen_Monoculture_2_TEST.csv")
+LUPE_Nam_Monoculture_2<-read.csv("MPN_Analysis_LUPE_Nam_Monoculture_2_TEST.csv")
 
 
 ####
@@ -57,8 +57,27 @@ MPN_Data<-data.frame("Treatment"=c("LECA_Nen_Monoculture_1","LECA_Nam_Monocultur
 
 
 #### Statistical Analyses ####
+MPN_Averages<-MPN_Data%>%
+  group_by(Species,N_Treatment,Diversity)%>%
+  summarise(MPN_Avg=mean(MPN),LogMPN_Avg=mean(LogMPN))%>%
+  ungroup
+
+MPN_Summary<-MPN_Data%>%
+  #Group data by the columns "Watershed" and "exclosure"
+  group_by(Species,N_Treatment,Diversity)%>%
+  #In this data frame, summarize the data.  Make a new column named "Richness_Std" and calculate the standard deviation from the column "Richness".  Also calculate the mean and length from the column "Richness" and place them into their own columns.
+  summarize(MPN_Std=sd(MPN),MPN_Mean=mean(MPN),MPN_n=length(MPN),LogMPN_Std=sd(LogMPN),LogMPN_Mean=mean(LogMPN),LogMPN_n=length(LogMPN))%>%
+  #Make a new column called "Richness_St_Error" and divide "Richness_Std" by the square root of "Richness_n"
+  mutate(MPN_St_Error=MPN_Std/sqrt(MPN_n),LogMPN_St_Error=LogMPN_Std/sqrt(LogMPN_n))%>%
+  ungroup
+
+t.test(MPN_Summary$MPN_Mean~MPN_Summary$Species)
+t.test(MPN_Summary$MPN_Mean~MPN_Summary$N_Treatment)
 
 
+#### Graphs ####
+
+#
 
 
 
