@@ -77,10 +77,68 @@ t.test(MPN_Summary$MPN_Mean~MPN_Summary$N_Treatment)
 
 #### Graphs ####
 
-#
+#### MPN by N treatment Bar Graph
+#png(filename="MPN by N Treatment", width =6 ,height =6,units = 'in' ,res =300 )
+#Use data from "MPN_Summary".  Change the aesthetics x is equal to the data from "exlosure", and y is equal to the "Richness_Mean"
+ggplot(MPN_Summary,aes(x=N_Treatment,y=MPN_Mean, fill=Species))+
+  #Make a bar graph where the height of the bars is equal to the data (stat=identity) and you preserve the vertical position while adjusting the horizontal(position_dodge), and fill in the bars with the color grey.   -BW
+  geom_bar(stat="identity", position=position_dodge())+
+  scale_fill_manual(values=c("lightcyan3","cadetblue4"))+
+  #Make an error bar that represents the standard error within the data and place the error bars at position 0.9 and make them 0.2 wide.
+  geom_errorbar(aes(ymin=MPN_Mean-MPN_St_Error,ymax=MPN_Mean+MPN_St_Error),position=position_dodge(0.9),width=0.2)+
+  #Label the x-axis "Treatment"
+  xlab("Nitrogen Treatment")+
+  #Label the y-axis "Species Richness"
+  ylab(bquote("Density of Soil Rhizobia (per g)"))+
+  scale_x_discrete(labels=c("LECA"="Lespedeza Capitata","LUPE"="Lupinus Perennis"))+
+  #Make the y-axis extend to 50
+  expand_limits(y=100)+
+  annotate("text",x=1,y=95,label="A",size=15)+
+  #Add "B" to the graph in size 6 at position 2,13.5
+  annotate("text",x=2,y=90,label="B",size=15)
+#dev.off()
+#Save at the graph at 1400x1500
+
+#### LogMPN by N treatment Bar Graph
+#png(filename="MPN by N Treatment", width =6 ,height =6,units = 'in' ,res =300 )
+#Use data from "MPN_Summary".  Change the aesthetics x is equal to the data from "exlosure", and y is equal to the "Richness_Mean"
+ggplot(MPN_Summary,aes(x=N_Treatment,y=LogMPN_Mean, fill=Species))+
+  #Make a bar graph where the height of the bars is equal to the data (stat=identity) and you preserve the vertical position while adjusting the horizontal(position_dodge), and fill in the bars with the color grey.   -BW
+  geom_bar(stat="identity", position=position_dodge())+
+  scale_fill_manual(values=c("lightcyan3","cadetblue4"))+
+  #Make an error bar that represents the standard error within the data and place the error bars at position 0.9 and make them 0.2 wide.
+  geom_errorbar(aes(ymin=LogMPN_Mean-LogMPN_St_Error,ymax=LogMPN_Mean+LogMPN_St_Error),position=position_dodge(0.9),width=0.2)+
+  #Label the x-axis "Treatment"
+  xlab("Nitrogen Treatment")+
+  #Label the y-axis "Species Richness"
+  ylab(bquote("Log Density of Soil Rhizobia (per g)"))+
+  scale_x_discrete(labels=c("LECA"="Lespedeza Capitata","LUPE"="Lupinus Perennis"))+
+  #Make the y-axis extend to 50
+  expand_limits(y=3)+
+  annotate("text",x=1,y=2.5,label="A",size=15)+
+  #Add "B" to the graph in size 6 at position 2,13.5
+  annotate("text",x=2,y=2.5,label="B",size=15)
+#dev.off()
+#Save at the graph at 1400x1500
 
 
-
+#### MPN by N treatment Box Plot
+MPN_Data$col.nm<-ifelse(MPN_Data$Species=="LECA", yes="blue", no="red")
+ggplot(MPN_Data, aes(x=N_Treatment , y=LogMPN, fill=Species))+ #feed in data, x, y, and variable you want to color boxes by (if desired)
+  #annotate("rect",xmin=1-.5,xmax=3+.5,ymin=1,ymax=5,alpha=.2,fill="blue")+ #These color the background region of the plotting area different colors
+  #annotate("rect",xmin=3-.5,xmax=7+.5,ymin=1,ymax=5,alpha=.2,fill="red")+
+  geom_boxplot(notch=F)+ #Can delete the second argument if not coloring the boxes. I have color names (DATA$col.nm) as a column in the dataframe here
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), #removes background gridlines
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), #makes white background with black axes
+        axis.title.x=element_text(size=20), axis.text.x=element_text(size=20, colour="black"), #Increases axis text size
+        axis.title.y=element_text(size=20), axis.text.y=element_text(colour="Black", size=16), #increases axis text size
+        axis.line.y=element_line(color="black", size=1),axis.line.x=element_line(color="black", size=1), #Changes axis thickness etc.
+        plot.title=element_text(size=20), legend.position="none")+ #Sets text size for title (not necessary) and removes legend
+  labs(title="",x="Nitrogen Treatment",y="MPN")+ #Sets axis titles
+  scale_x_discrete(labels=c("Ambient Nitrogen","Enriched Nitrogen"))+ #Sets labels for groups along X axis
+  annotate("text", x=c(.8,1.2,1.8,2.2), y=c(2.2), label=c("a","a", "a","b"), size=c(5), colour="black") #Puts in letters of significance from ANOVA
+#ggtitle("b)")+ #puts in the panel label. can remove if not for a multipanel figure
+#theme(plot.title=element_text(size=30,hjust=-.18)) #sets size and position (top left) of panel label
 
 
 
