@@ -7,6 +7,8 @@
 
 setwd("/Users/bloodworthk/Dropbox (Smithsonian)/SERC Ecosystem Conservation/Projects/Interns/2019/2019_REU_Villanueva/MPN2018/MPN_data_analysis/Test_Data")
 
+setwd("/Users/kathrynbloodworth/Dropbox (Smithsonian)/SERC Ecosystem Conservation/Projects/Interns/2019/2019_REU_Villanueva/MPN2018/MPN_data_analysis/Test_Data")
+
 #### Load and install libraries ####
 #install.packages("vegan")
 library(vegan)
@@ -27,23 +29,32 @@ theme_update(axis.title.x=element_text(size=40, vjust=-0.35, margin=margin(t=15)
 #### Read in Data and create usable data sheet ####
 
 #Read in the data sheet to new data frame
-LECA_Nen_Monoculture_1<-read.csv("MPN_Analysis_LECA_Nen_Monoculture_TEST.csv")
-LECA_Nam_Monoculture_1<-read.csv("MPN_Analysis_LECA_Nam_Monoculture_TEST.csv")
-LUPE_Nen_Monoculture_1<-read.csv("MPN_Analysis_LUPE_Nen_Monoculture_TEST.csv")
-LUPE_Nam_Monoculture_1<-read.csv("MPN_Analysis_LUPE_Nam_Monoculture_TEST.csv")
-LECA_Nen_Monoculture_2<-read.csv("MPN_Analysis_LECA_Nen_Monoculture_2_TEST.csv")
-LECA_Nam_Monoculture_2<-read.csv("MPN_Analysis_LECA_Nam_Monoculture_2_TEST.csv")
-LUPE_Nen_Monoculture_2<-read.csv("MPN_Analysis_LUPE_Nen_Monoculture_2_TEST.csv")
-LUPE_Nam_Monoculture_2<-read.csv("MPN_Analysis_LUPE_Nam_Monoculture_2_TEST.csv")
+LECA_Nen_Monoculture_1<-read.csv("MPN_Analysis_LECA_Nen_Monoculture_TEST.csv",header=F)
+LECA_Nam_Monoculture_1<-read.csv("MPN_Analysis_LECA_Nam_Monoculture_TEST.csv",header=F)
+LUPE_Nen_Monoculture_1<-read.csv("MPN_Analysis_LUPE_Nen_Monoculture_TEST.csv",header=F)
+LUPE_Nam_Monoculture_1<-read.csv("MPN_Analysis_LUPE_Nam_Monoculture_TEST.csv",header=F)
+LECA_Nen_Monoculture_2<-read.csv("MPN_Analysis_LECA_Nen_Monoculture_2_TEST.csv",header=F)
+LECA_Nam_Monoculture_2<-read.csv("MPN_Analysis_LECA_Nam_Monoculture_2_TEST.csv",header=F)
+LUPE_Nen_Monoculture_2<-read.csv("MPN_Analysis_LUPE_Nen_Monoculture_2_TEST.csv",header=F)
+LUPE_Nam_Monoculture_2<-read.csv("MPN_Analysis_LUPE_Nam_Monoculture_2_TEST.csv",header=F)
 
 
 ####
 #Create a new data frame with vector that have all treatment combinations, all MPN data (must be in the same order as treatment data), and all LogMPN data (must be in the same order as treatment data) 
 MPN_Data<-data.frame("Treatment"=c("LECA_Nen_Monoculture_1","LECA_Nam_Monoculture_1","LUPE_Nen_Monoculture_1","LUPE_Nam_Monoculture_1","LECA_Nen_Monoculture_2","LECA_Nam_Monoculture_2","LUPE_Nen_Monoculture_2","LUPE_Nam_Monoculture_2"),
-                     "MPN"=c(as.numeric(as.vector(LECA_Nen_Monoculture_1[1,"X.1"])),as.numeric(as.vector(LECA_Nam_Monoculture_1[1,"X.1"])),as.numeric(as.vector(LUPE_Nen_Monoculture_1[1,"X.1"])),as.numeric(as.vector(LUPE_Nam_Monoculture_1[1,"X.1"])),as.numeric(as.vector(LECA_Nen_Monoculture_2[1,"X.1"])),as.numeric(as.vector(LECA_Nam_Monoculture_2[1,"X.1"])),as.numeric(as.vector(LUPE_Nen_Monoculture_2[1,"X.1"])),as.numeric(as.vector(LUPE_Nam_Monoculture_2[1,"X.1"]))),
-                     "LogMPN"=c(as.numeric(as.vector(LECA_Nen_Monoculture_1[2,"X.1"])),as.numeric(as.vector(LECA_Nam_Monoculture_1[2,"X.1"])),as.numeric(as.vector(LUPE_Nen_Monoculture_1[2,"X.1"])),as.numeric(as.vector(LUPE_Nam_Monoculture_1[2,"X.1"])),as.numeric(as.vector(LECA_Nen_Monoculture_2[2,"X.1"])),as.numeric(as.vector(LECA_Nam_Monoculture_2[2,"X.1"])),as.numeric(as.vector(LUPE_Nen_Monoculture_2[2,"X.1"])),as.numeric(as.vector(LUPE_Nam_Monoculture_2[2,"X.1"]))))%>%
+                     "MPN"=c(as.numeric(as.vector(LECA_Nen_Monoculture_1[2,7])),as.numeric(as.vector(LECA_Nam_Monoculture_1[2,7])),as.numeric(as.vector(LUPE_Nen_Monoculture_1[2,7])),as.numeric(as.vector(LUPE_Nam_Monoculture_1[2,7])),as.numeric(as.vector(LECA_Nen_Monoculture_2[2,7])),as.numeric(as.vector(LECA_Nam_Monoculture_2[2,7])),as.numeric(as.vector(LUPE_Nen_Monoculture_2[2,7])),as.numeric(as.vector(LUPE_Nam_Monoculture_2[2,7]))),
+                     "LogMPN"=c(as.numeric(as.vector(LECA_Nen_Monoculture_1[3,7])),as.numeric(as.vector(LECA_Nam_Monoculture_1[3,7])),as.numeric(as.vector(LUPE_Nen_Monoculture_1[3,7])),as.numeric(as.vector(LUPE_Nam_Monoculture_1[3,7])),as.numeric(as.vector(LECA_Nen_Monoculture_2[3,7])),as.numeric(as.vector(LECA_Nam_Monoculture_2[3,7])),as.numeric(as.vector(LUPE_Nen_Monoculture_2[3,7])),as.numeric(as.vector(LUPE_Nam_Monoculture_2[3,7]))))%>%
   separate(Treatment,c("Species","N_Treatment","Diversity","Rep_Number"),sep="_")
 
+MPN_Data$Diversity<-1
+dat2<-MPN_Data
+dat2$Diversity<-4
+dat2$MPN<-dat2$MPN*runif(n = 8, min = .6, max=3)
+dat3<-MPN_Data
+dat3$Diversity<-16
+dat3$MPN<-dat3$MPN*runif(n = 8, min = .6, max=3)
+
+MPN_Data<-rbind(MPN_Data, dat2, dat3)
 
 # Easier way to create above data frame? Ben is working on this
 #obvec<-c(LECA_Nen_Monoculture,LECA_Nam_Monoculture,LUPE_Nen_Monoculture,LUPE_Nam_Monoculture)
@@ -74,6 +85,25 @@ MPN_Summary<-MPN_Data%>%
 t.test(MPN_Summary$MPN_Mean~MPN_Summary$Species)
 t.test(MPN_Summary$MPN_Mean~MPN_Summary$N_Treatment)
 
+#Run an anova comparing MPN data from different species and N treatments
+spp_N_aov<-with(MPN_Data, aov(MPN~Species*N_Treatment))
+summary(spp_N_aov)
+#tuk.spp_N<-cld(glht(spp_N_aov, linfct-mcp(N_Treatment="Tukey")))
+#tuk.spp_N
+
+#Run an anova comparing MPN data from different species and diversity treatments
+spp_div<-with(MPN_Data, aov(MPN~Species*Diversity))
+summary(spp_div)
+
+#Run an anova comparing MPN data from different N and diversity treatments
+spp_div<-with(MPN_Data, aov(MPN~N_Treatment*Diversity))
+summary(spp_div)
+
+spp_N_div<-with(MPN_Data, aov(MPN~Species*N_Treatment*Diversity))
+summary(spp_N_div)
+
+spp_N_aov<-with(MPN_Data, aov(MPN~Diversity))
+summary(spp_N_aov)
 
 #### Graphs ####
 
